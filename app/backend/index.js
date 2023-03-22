@@ -10,7 +10,7 @@ app.use((req, res, next) => {
     next();
   });
 
-const sequelize = new Sequelize('postgres://postgres:root@127.0.0.1:5432/postgres');
+const sequelize = new Sequelize('postgres://postgres:root@postgres:5432/postgres');
 
 const Apartments = sequelize.define('apartments', {
     id:{

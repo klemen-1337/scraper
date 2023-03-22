@@ -1,5 +1,5 @@
 {
-    "name": "app",
+    "name": "backend",
     "version": "1.0.0",
     "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
     "main": "index.js",
@@ -12,6 +12,7 @@
     "dependencies": {
       "express": "^4.18.2",
       "nodemon": "^2.0.20",
-      "sequelize": "^6.29.3"
+      "sequelize": "^6.29.3",
+      "pg": "^8.10.0"
     }
   }
