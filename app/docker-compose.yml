@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./01-init-db.sql:/docker-entrypoint-initdb.d/01-init-db.sql
+      - ./02-load-db.sql:/docker-entrypoint-initdb.d/02-load-db.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+
+  backend:
+    container_name: backend
+    build:
+      dockerfile: Dockerfile
+      context: "./backend"
+    depends_on:
+      - postgres
+    volumes:
+      - /app/node_modules
+      - ./backend:/app
+    ports:
+      - 5000:5000
+    networks:
+      - backend
+
+  client:
+    container_name: client
+    build:
+      dockerfile: Dockerfile
+      context: ./app
+    volumes:
+      - /app/node_modules
+      - ./app:/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+
+volumes:
+  db:
+    external: false
+networks:
+  backend:
