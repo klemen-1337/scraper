@@ -10,7 +10,6 @@ app.use((req, res, next) => {
     next();
   });
 
-
 const sequelize = new Sequelize('postgres://postgres:root@127.0.0.1:5432/postgres');
 
 const Apartments = sequelize.define('apartments', {
@@ -39,16 +38,21 @@ const Apartments = sequelize.define('apartments', {
     timestamps: false
 });
 
-app.get('/', (req, res) => {
-    Apartments.findAll({
-        where: {
-            id: {
-                [Op.lt]: 10
+app.get('/apartments', (req, res) => {
+    if(req.query.page){
+        Apartments.findAll({
+            where: {
+                id: {
+                    [Op.lt]: req.query.page * 21,
+                    [Op.gt]: (req.query.page-1) * 21
+                }
             }
-        }
-    }).then((apartments) =>{
-        res.json(apartments);
-    })
+        }).then((apartments) =>{
+            res.json(apartments);
+        })
+    }else{
+        res.send('Not a valid request');
+    }
 });
 
 app.listen(PORT, () => console.log('server listening on port ' + PORT));
