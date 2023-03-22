@@ -38,9 +38,13 @@ services:
       - /app/node_modules
       - ./app:/app
     ports:
-      - 3000:3000
+      - 8080:80
+    expose:
+      - 8080
     depends_on:
       - backend
+    environment:
+      - WATCHPACK_POLLING=true
 
 volumes:
   db:
